@@ -63,7 +63,7 @@ match_indent = true
 target = 'game.lua'
 pattern = '''if G.GAME.current_round.voucher and G.P_CENTERS[G.GAME.current_round.voucher] then'''
 position = 'before'
-payload = '''if (pseudorandom(pseudoseed('contract')) > 0.008) and contract_allowed() then
+payload = '''if (pseudorandom(pseudoseed('contract')) > 0.8) and contract_allowed() then
 G.shop_vouchers.config.card_limit = G.shop_vouchers.config.card_limit + 1
 local card = Card(G.shop_vouchers.T.x + G.shop_vouchers.T.w/2,
 G.shop_vouchers.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS[get_contract()],{bypass_discovery_center = true, bypass_discovery_ui = true})
