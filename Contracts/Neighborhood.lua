@@ -4,7 +4,7 @@
 --- PREFIX: nh
 --- MOD_AUTHOR: [mathguy]
 --- MOD_DESCRIPTION: Contracts
---- VERSION: 0.0.0
+--- VERSION: 0.0.1
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
@@ -344,31 +344,31 @@ function G.UIDEF.signed_contracts()
 end
 
 function contract_can_buy(card)
-    if G.GAME.contracts.cn_nh_brand and (card.ability.set == 'Joker') and (card.config.center.rarity ~= 2) then
+    if G.GAME.contracts and G.GAME.contracts.cn_nh_brand and (card.ability.set == 'Joker') and (card.config.center.rarity ~= 2) then
         return false
     end
-    if G.GAME.contracts.cn_nh_purchase and (card.ability.set ~= 'Joker') then
+    if G.GAME.contracts and G.GAME.contracts.cn_nh_purchase and (card.ability.set ~= 'Joker') then
         return false
     end
     return true
 end
 
 function contract_can_open(card)
-    if G.GAME.contracts.cn_nh_purchase and (card.ability.set == 'Booster') and not card.ability.name:find('Buffoon') then
+    if G.GAME.contracts and G.GAME.contracts.cn_nh_purchase and (card.ability.set == 'Booster') and not card.ability.name:find('Buffoon') then
         return false
     end
     return true
 end
 
 function contract_can_play()
-    if G.GAME.contracts.cn_nh_space and (G.GAME.contract_data.most_played ~= G.GAME.contract_data.current_hand) then
+    if G.GAME.contracts and G.GAME.contracts.cn_nh_space and (G.GAME.contract_data.most_played ~= G.GAME.contract_data.current_hand) then
         return false
     end
     return true
 end
 
 function contract_can_discard()
-    if G.GAME.contracts.cn_nh_green then
+    if G.GAME.contracts and G.GAME.contracts.cn_nh_green then
         return false
     end
     return true
@@ -385,7 +385,7 @@ end
 local old_set = Card.set_cost
 function Card:set_cost()
     old_set(self)
-    if G.GAME.contracts.cn_nh_purchase and ((self.ability.set == 'Joker') or (self.ability.set == 'Booster' and self.ability.name:find('Buffoon'))) then
+    if G.GAME.contracts and G.GAME.contracts.cn_nh_purchase and ((self.ability.set == 'Joker') or (self.ability.set == 'Booster' and self.ability.name:find('Buffoon'))) then
         self.cost = math.ceil(self.cost * 0.2)
     end
 end
@@ -393,7 +393,7 @@ end
 local old_pack = get_pack
 function get_pack(_key, _type)
     local old = old_pack(_key, _type)
-    if G.GAME.contracts.cn_nh_green then
+    if G.GAME.contracts and G.GAME.contracts.cn_nh_green then
         if not G.GAME.first_shop_buffoon and not G.GAME.banned_keys['p_buffoon_jumbo_1'] then
             G.GAME.first_shop_buffoon = true
             return G.P_CENTERS['p_buffoon_jumbo_1']
